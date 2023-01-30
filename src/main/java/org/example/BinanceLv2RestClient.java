@@ -17,7 +17,7 @@ public class BinanceLv2RestClient implements Runnable {
     @Override
     public void run() {
         Gson gson = new Gson();
-        String uri = String.format("https://api.binance.com/api/v3/depth?symbol=%s&limit=10", symbol);
+        String uri = String.format("https://api.binance.com/api/v3/depth?symbol=%s&limit=1000", symbol);
         try {
             String content = Request.get(uri).execute().returnContent().toString();
             BinanceLv2Snapshot snapshot = gson.fromJson(content, BinanceLv2Snapshot.class);

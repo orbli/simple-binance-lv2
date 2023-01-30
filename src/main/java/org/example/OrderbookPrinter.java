@@ -7,16 +7,20 @@ import java.math.BigDecimal;
 public class OrderbookPrinter implements Runnable {
 
     private final BinanceLv2Digester digester;
+    private final Integer depth;
+    private final Integer time;
 
-    public OrderbookPrinter(BinanceLv2Digester digester) {
+    public OrderbookPrinter(BinanceLv2Digester digester, Integer depth, Integer time) {
         this.digester = digester;
+        this.depth = depth;
+        this.time = time;
     }
 
     public static void printOrderbook(OrderBook orderbook, Integer depth) {
         if (depth == null) {
             depth = 10;
         }
-        System.out.println("BID_SIZE BID_PRICE ASK_PRICE ASK_SIZE");
+        System.out.printf("%-15s %15s %-15s %15s%n", "BID_SIZE", "BID_PRICE", "ASK_PRICE", "ASK_SIZE");
         BigDecimal bid_price = orderbook.bids.lastKey();
         BigDecimal ask_price = orderbook.asks.firstKey();
         for (int i = 0; i < depth; i++) {
@@ -26,7 +30,7 @@ public class OrderbookPrinter implements Runnable {
             }
             BigDecimal bid_size = orderbook.bids.get(bid_price);
             BigDecimal ask_size = orderbook.asks.get(ask_price);
-            System.out.printf("%s %s %s %s%n", bid_size, bid_price, ask_price, ask_size);
+            System.out.printf("%-15s %15s %-15s %15s%n", bid_size, bid_price, ask_price, ask_size);
         }
     }
 
@@ -36,13 +40,13 @@ public class OrderbookPrinter implements Runnable {
     public void run() {
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 OrderBook orderbook = digester.accessOrderbook(null, null);
                 if (orderbook != null) {
-                    printOrderbook(orderbook, 10);
+                    printOrderbook(orderbook, depth);
                 } else {
                     System.out.println("orderbook is null");
                 }
