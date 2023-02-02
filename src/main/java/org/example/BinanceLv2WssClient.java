@@ -22,6 +22,7 @@ public class BinanceLv2WssClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
+//        TODO: malform / unexpected message?
         BinanceLv2Update update = gson.fromJson(message, BinanceLv2Update.class);
         this.digester.accessOrderbook(null, update);
     }

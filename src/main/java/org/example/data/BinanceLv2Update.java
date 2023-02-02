@@ -7,6 +7,7 @@ public final class BinanceLv2Update {
 //    public String stream;
     public BinanceLv2Data data;
 
+//    assumed data structure inspected on feb 2 2023
     public final static class BinanceLv2Data {
 //        public String e; // event type
 //        public long E; // event time

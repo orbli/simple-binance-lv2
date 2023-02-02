@@ -27,6 +27,7 @@ public class BinanceLv2Digester {
     }
 
     public void start() {
+//        TODO: reconnect mechanism?
         client.connect();
     }
 
