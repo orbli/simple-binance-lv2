@@ -8,10 +8,12 @@ public class BinanceLv2RestClient implements Runnable {
 
     private final String symbol;
     private final BinanceLv2Digester digester;
+    public boolean completes;
 
     public BinanceLv2RestClient(String symbol, BinanceLv2Digester digester) {
         this.symbol = symbol;
         this.digester = digester;
+        completes = false;
     }
 
     @Override
@@ -25,5 +27,6 @@ public class BinanceLv2RestClient implements Runnable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        completes = true;
     }
 }

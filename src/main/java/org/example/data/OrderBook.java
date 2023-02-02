@@ -14,6 +14,7 @@ public class OrderBook {
 
     /*
       @return if the update is applied successfully
+      expected to fail if delete non existent update - but does not apply to binance as it includes replaying played updates
     */
     public boolean update(OrderBookUpdate update) {
         for (BigDecimal price : update.asks.keySet()) {
@@ -33,5 +34,27 @@ public class OrderBook {
             }
         }
         return true;
+    }
+
+    public OrderBook truncateBook(Integer depth) {
+        TreeMap<BigDecimal, BigDecimal> bids = new TreeMap<>();
+        TreeMap<BigDecimal, BigDecimal> asks = new TreeMap<>();
+        int i = 0;
+        for (BigDecimal price : this.bids.descendingKeySet()) {
+            if (i >= depth) {
+                break;
+            }
+            bids.put(price, this.bids.get(price));
+            i++;
+        }
+        i = 0;
+        for (BigDecimal price : this.asks.keySet()) {
+            if (i >= depth) {
+                break;
+            }
+            asks.put(price, this.asks.get(price));
+            i++;
+        }
+        return new OrderBook(bids, asks);
     }
 }
