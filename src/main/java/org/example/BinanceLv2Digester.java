@@ -93,7 +93,7 @@ public class BinanceLv2Digester {
                 }
             } else { // if (update != null) {
 //                range of update is within built book: update book
-//                lemma: replaying old update will not change the book
+//                lemma: replaying old update will not corrupt the book
                 if ((update.data.U - 1 <= orderbook_update_id) && (orderbook_update_id < update.data.u)) {
                     orderbook_update_id = update.data.u;
                     if (!(orderbook.update(update.toOrderBookUpdate()))) {
